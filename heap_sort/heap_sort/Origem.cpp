@@ -9,13 +9,13 @@ void heapify(int array[], int array_length, int initial_index)
     int left_index = 2 * initial_index + 1;
     int right_index = 2 * initial_index + 2;
 
-	// Se tiver item na esquerda, passar� a ser o maior valor
+	// Se tiver item na esquerda e for maior que o maior valor: passar� a ser o maior valor
 	if (left_index < array_length && array[left_index] > array[largest_value_index])
 	{
 		largest_value_index = left_index;
 	}
 
-	// Se tiver item na direita, passar� a ser o maior valor
+	// Se tiver item na direita e for maior que o maior valor: passar� a ser o maior valor
 	if (right_index < array_length && array[right_index] > array[largest_value_index])
 	{
 		largest_value_index = right_index;
