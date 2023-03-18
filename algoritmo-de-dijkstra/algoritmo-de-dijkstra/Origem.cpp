@@ -4,6 +4,15 @@ using namespace std;
 #define total_vertices 4
 #define total_edges 4
 
+// Inicializa com INT_MAX, pois é uma estimativa, então jogamos um valor alto.
+
+void printSolution(int dist[])
+{
+	cout << "Vertex \t Distance from Source" << endl;
+	for (int i = 0; i < total_vertices; i++)
+		cout << i << " \t\t\t\t" << dist[i] << endl;
+}
+
 // Pegar o indíce da vértice com menor menor distância.
 int get_min_distance(int shorter_distances[], bool vertices_already_visited[])
 {
@@ -40,7 +49,7 @@ void dijkstra(int graph[total_vertices][total_vertices], int source_vertex)
 		int min_distance_index = get_min_distance(shorter_distances, vertices_already_visited);
 		vertices_already_visited[min_distance_index] = true;
 
-		// Atualizar as distâncias mais curtas
+		// Atualizar as distâncias baseado no peso das arestas adjacentes.
 		for (int current_edge_index = 0; current_edge_index < total_edges; current_edge_index++)
 		{
 			int const shortest_distance_already_found = shorter_distances[min_distance_index];
@@ -62,16 +71,17 @@ void dijkstra(int graph[total_vertices][total_vertices], int source_vertex)
 			}
 		}
 	}
+	printSolution(shorter_distances);
 }
 
 int main()
 {
-	// Representação de um grafo usando um array de adjacência.
+	// Representação de um grafo usando um array de adjacência. 0 === Sem aresta.
 	int graph[total_vertices][total_edges] = {
-		{ 0, 4, 0, 0 }, // 0 Início
-		{ 4, 0, 8, 0 }, // 4
-		{ 0, 8, 0, 7 }, // 12: resultado da soma de 4 e 8 da vértice anterior
-		{ 0, 0, 7, 0 }, // 19: resultado da soma de 8 e 7 da vértice anterior
+		{ 0, 4, 0, 0 }, // 0
+		{ 4, 0, 2, 0 }, // (Vértice Adjacente) 4: 0(Peso da aresta da vértice anterior) + 4 (Peso da aresta que 'conecta' a vértice anterior com essa, que resultou na menor distância)
+		{ 0, 8, 0, 2 }, // (Vértice Adjacente) 6: 4(Peso da aresta da vértice anterior) + 2 (Peso da aresta que 'conecta' a vértice anterior com essa, que resultou na menor distância)
+		{ 0, 0, 7, 0 }, // (Vértice Adjacente) 8: 6(Peso da aresta da vértice anterior) + 2 (Peso da aresta que 'conecta' a vértice anterior com essa, que resultou na menor distância)
 	};
 	dijkstra(graph, 0);
 	return 0;
