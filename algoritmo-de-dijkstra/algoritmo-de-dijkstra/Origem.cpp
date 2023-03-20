@@ -4,16 +4,9 @@ using namespace std;
 #define total_vertices 4
 #define total_edges 4
 
-// Inicializa com INT_MAX, pois é uma estimativa, então jogamos um valor alto.
+// Inicializa com INT_MAX, pois ï¿½ uma estimativa, entï¿½o jogamos um valor alto.
 
-void printSolution(int dist[])
-{
-	cout << "Vertex \t Distance from Source" << endl;
-	for (int i = 0; i < total_vertices; i++)
-		cout << i << " \t\t\t\t" << dist[i] << endl;
-}
-
-// Pegar o indíce da vértice com menor menor distância.
+// Indice do vÃ©rtice que tem a menor distÃ¢ncia atÃ© a origem entre os que ainda nÃ£o foram visitados.
 int get_min_distance(int shorter_distances[], bool vertices_already_visited[])
 {
 	int min_distance = INT_MAX;
@@ -34,14 +27,14 @@ void dijkstra(int graph[total_vertices][total_vertices], int source_vertex)
 	int shorter_distances[total_vertices];
 	bool vertices_already_visited[total_vertices];
 
-	// Inicializar as variáveis
+	// Inicializar as variï¿½veis
 	for (int index = 0; index < total_vertices; index++)
 	{
 		shorter_distances[index] = INT_MAX;
 		vertices_already_visited[index] = false;
 	}
 
-	// A distância da vértice inicial para ela mesma é 0.
+	// A distï¿½ncia da vï¿½rtice inicial para ela mesma ï¿½ 0.
 	shorter_distances[source_vertex] = 0;
 
 	for (int current_vertex = 0; current_vertex < total_vertices - 1; current_vertex++)
@@ -49,18 +42,19 @@ void dijkstra(int graph[total_vertices][total_vertices], int source_vertex)
 		int min_distance_index = get_min_distance(shorter_distances, vertices_already_visited);
 		vertices_already_visited[min_distance_index] = true;
 
-		// Atualizar as distâncias baseado no peso das arestas adjacentes.
+		// Atualizar as distï¿½ncias baseado nas distÃ¢ncias dos vÃ©rtices adjacentes ao vÃ©rtice visitado
 		for (int current_edge_index = 0; current_edge_index < total_edges; current_edge_index++)
 		{
 			int const shortest_distance_already_found = shorter_distances[min_distance_index];
 			int const shortest_distance_current_vertex = graph[min_distance_index][current_edge_index];
 
-			// A soma dos pesos das arestas e se for o menor vai ser o peso do caminho de uma vértice à outra. (Linha do array à outra)
+			// A soma dos pesos das arestas e se for o menor vai ser o peso do caminho de uma vï¿½rtice ï¿½ outra. (Linha do array ï¿½ outra)
 			int const current_shortest_distance = shortest_distance_already_found + shortest_distance_current_vertex;
 
-			// Atualiza as distâncias minímas somente se não estiver visitada;
-			 // Existe uma aresta entre as vértices;
-			 // Peso total do caminho atual é o menor já registrado
+			// se o vÃ©rtice adjacente nÃ£o foi visitado,
+			// se existe uma aresta entre os dois vÃ©rtices,
+			// se a distÃ¢ncia atÃ© o vÃ©rtice visitado nÃ£o Ã© infinita e
+			// se a soma das distÃ¢ncias Ã© menor do que a distÃ¢ncia atual.
 			if (
 				!vertices_already_visited[current_edge_index] &&
 				graph[min_distance_index][current_edge_index] &&
@@ -71,17 +65,16 @@ void dijkstra(int graph[total_vertices][total_vertices], int source_vertex)
 			}
 		}
 	}
-	printSolution(shorter_distances);
 }
 
 int main()
 {
-	// Representação de um grafo usando um array de adjacência. 0 === Sem aresta.
+	// Representaï¿½ï¿½o de um grafo usando um array de adjacï¿½ncia. 0 === Sem aresta.
 	int graph[total_vertices][total_edges] = {
 		{ 0, 4, 0, 0 }, // 0
-		{ 4, 0, 2, 0 }, // (Vértice Adjacente) 4: 0(Peso da aresta da vértice anterior) + 4 (Peso da aresta que 'conecta' a vértice anterior com essa, que resultou na menor distância)
-		{ 0, 8, 0, 2 }, // (Vértice Adjacente) 6: 4(Peso da aresta da vértice anterior) + 2 (Peso da aresta que 'conecta' a vértice anterior com essa, que resultou na menor distância)
-		{ 0, 0, 7, 0 }, // (Vértice Adjacente) 8: 6(Peso da aresta da vértice anterior) + 2 (Peso da aresta que 'conecta' a vértice anterior com essa, que resultou na menor distância)
+		{ 4, 0, 2, 0 }, // (Vï¿½rtice Adjacente) 4: 0(Peso da aresta da vï¿½rtice anterior) + 4 (Peso da aresta que 'conecta' a vï¿½rtice anterior com essa, que resultou na menor distï¿½ncia)
+		{ 0, 8, 0, 2 }, // (Vï¿½rtice Adjacente) 6: 4(Peso da aresta da vï¿½rtice anterior) + 2 (Peso da aresta que 'conecta' a vï¿½rtice anterior com essa, que resultou na menor distï¿½ncia)
+		{ 0, 0, 7, 0 }, // (Vï¿½rtice Adjacente) 8: 6(Peso da aresta da vï¿½rtice anterior) + 2 (Peso da aresta que 'conecta' a vï¿½rtice anterior com essa, que resultou na menor distï¿½ncia)
 	};
 	dijkstra(graph, 0);
 	return 0;
